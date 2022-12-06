@@ -1,0 +1,24 @@
+django
+
+psycopg2 
+psycopg2-binary
+
+ptvsd
+debugpy
+
+pytest-django
+factory_boy
+
+markdown
+raven
+celery
+redis # cash
+
+flake8 # format
+
+drf-yasg # swargger
+
+djangorestframework
+django-celery-beat
+django-celery-results
+django-filter
