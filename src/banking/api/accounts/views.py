@@ -24,8 +24,8 @@ class AccountViewSet(mixins.ListModelMixin,
 
     def list(self, request, *args, **kwargs):
         user = request.user
-        if not self.request.user.username:
-            return Response({'error': 'you are not auth.'}, status=status.HTTP_401_UNAUTHORIZED)
+        if not self.request.user.username or getattr(self.request.user, 'customer', None):
+            return Response({'Error': 'something worg.'}, status=status.HTTP_401_UNAUTHORIZED)
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page:
