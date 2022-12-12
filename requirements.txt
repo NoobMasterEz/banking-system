@@ -22,3 +22,11 @@ djangorestframework
 django-celery-beat
 django-celery-results
 django-filter
+
+tensorflow
+
+jupyter
+notebook
+matplotlib
+numpy
+pandas

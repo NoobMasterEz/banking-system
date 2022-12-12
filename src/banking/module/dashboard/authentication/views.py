@@ -5,8 +5,6 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.backends import AllowAllUsersModelBackend
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
-from django.template import loader
-
 from django.contrib.auth.views import (LoginView, LogoutView,
                                        PasswordResetCompleteView,
                                        PasswordResetConfirmView,
@@ -14,11 +12,14 @@ from django.contrib.auth.views import (LoginView, LogoutView,
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import resolve_url
+from django.template import loader
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.views.generic.edit import CreateView
 
 from banking.module.email.tasks import send_email_reply
+from banking.module.users.forms import CustomerCreationForm
 
 
 class LoginForm(AuthenticationForm):
@@ -47,13 +48,20 @@ class LoginForm(AuthenticationForm):
             )
 
 
+class SignUpViewSet(SuccessMessageMixin, CreateView):
+    template_name = 'dashboard/accounts/register.html'
+    success_url = reverse_lazy('dashboard:login')
+    form_class = CustomerCreationForm
+    success_message = "Your profile was created successfully"
+
+
 class ResetForm(PasswordResetForm):
     def send_mail(self,
                   subject_template_name,
                   email_template_name,
                   context, from_email,
                   to_email,
-                  html_email_template_name) -> None:
+                  html_email_template_name):
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
         subject = "".join(subject.splitlines())

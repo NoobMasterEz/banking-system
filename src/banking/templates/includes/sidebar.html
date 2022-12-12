@@ -6,7 +6,7 @@
                 <div class="b-bg">
                     <i class="feather icon-trending-up"></i>
                 </div>
-                <span class="b-title">Datta Able</span>
+                <span class="b-title">DeltaX</span>
             </a>
             <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
         </div>
@@ -17,12 +17,12 @@
                 </li>
                 <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
                     class="nav-item {% if 'index' in segment %} active {% endif %}">
-                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                    <a href="{% url 'dashboard:index' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
                             class="pcoded-mtext">Dashboard</span></a>
                 </li>
                 <li data-username="Profile Page" 
                     class="nav-item {% if 'profile' in segment %} active {% endif %}">
-                    <a href="/profile.html" class="nav-link">
+                    <a href="{% url 'dashboard:profile' pk=request.user.pk %}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                             <span class="pcoded-mtext">Profile Page</span></a>
                 </li>                

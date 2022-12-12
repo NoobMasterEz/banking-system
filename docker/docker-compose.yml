@@ -3,6 +3,10 @@ version: '2.2'
 volumes:
     postgres_data:
 
+networks:
+  app-tier:
+    driver: bridge
+
 services:
     web:
       build:
@@ -30,6 +34,8 @@ services:
       env_file:
         - env/dev.env
       working_dir: /usr/src/django/src
+      networks:
+        - app-tier
 
     db:
       container_name: db
@@ -125,9 +131,48 @@ services:
         - env/dev.env
       working_dir: /usr/src/django/src
 
+
     redis:
       image: redis
       container_name: Redis
       ports:
             - "15672:15672"
             - "5672:5672"
+
+    tensorflow:
+      image: bitnami/tensorflow-serving:latest
+      container_name: tensorflow-serving
+      volumes:
+        - "../src/tensoflow/python/model/img_classifier:/bitnami/model-data"
+      ports:
+        - '8500:8500'
+        - '8501:8501'
+      networks:
+        - app-tier
+
+    notebook:
+      build:
+        context: ../
+        dockerfile: docker/Dockerfile
+      container_name: Notebook
+      restart: always
+      command: [
+        "jupyter",
+        "notebook",
+        "--ip",
+        "0.0.0.0",
+        "--port",
+        "9999",
+        "--allow-root",
+        "--no-browser"
+        ]
+      ports:
+        - "9999:9999"
+      volumes:
+        - ../.:/usr/src/django
+      env_file:
+        - env/dev.env
+      working_dir: /usr/src/django/src
+      networks:
+        - app-tier
+
