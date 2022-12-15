@@ -6,12 +6,10 @@
             "dockerCompose": {
                 "up": {
                     "detached": true,
-                    "profiles": [
-                        "docker-debug-1"
-                    ]
+                    "services": ["debug"]
                 },
                 "files": [
-                    "${workspaceFolder}/docker/docker-compose.yml"
+                    "${workspaceFolder}/docker/dev/docker-compose.yml"
                 ],
             }
         }    

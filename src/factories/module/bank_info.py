@@ -1,6 +1,6 @@
 import factory
 
-from banking.module.accounts.models import (AccountInformation,
+from delta_x.module.accounts.models import (AccountInformation,
                                             AccountStatement,
                                             generate_account_number)
 from .users import CustomerFactory
@@ -18,7 +18,7 @@ class AccountInformationFactory(factory.django.DjangoModelFactory):
 
 
 class AccountStatementFactory(factory.django.DjangoModelFactory):
-    banking_info = factory.SubFactory(AccountInformationFactory)
+    delta_x_info = factory.SubFactory(AccountInformationFactory)
     sender = factory.SubFactory(CustomerFactory)
     receiver = factory.SubFactory(CustomerFactory)
     amount = factory.Faker('pyint', min_value=0, max_value=10000000)

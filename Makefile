@@ -1,10 +1,5 @@
-### THIS IST THE VERSION WITH docker-compose
-# grep the version from the mix file
-VERSION=$(shell ./version.sh)
-NAME=$(shell docker ps --format "{{.Names}}" | grep Web)
-
 # Filenames
-DEV_COMPOSE_FILE := docker/docker-compose.yml
+DEV_COMPOSE_FILE := docker/dev/docker-compose.yml
 
 # HELP
 # This will output the help for each taskl
@@ -18,44 +13,40 @@ help: ## This help.
 # DOCKER TASKS
 # Build the container
 build: ## Build the release and develoment container. The development
-	docker-compose -f $(DEV_COMPOSE_FILE) up -d --build $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) up -d --build $(target)
 
-bash: ## Run container in development mode
-	docker exec -it $(NAME) bash
-
-dev: ## Run container in development mode
-	docker-compose build --no-cache $(c) && docker-compose run $(c)
+ssh: ## Run container in development mode
+	docker exec -it $(c) $(user)
 
 start: ## Start the project
-	${INFO} "Start local..."
-	docker-compose -f $(DEV_COMPOSE_FILE) start $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) up -d $(target)
 
 up: ## Spin up the containers
-	docker-compose -f $(DEV_COMPOSE_FILE) up -d  $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) up -d $(target)
 
 update: ## Spin up the containers
-	docker-compose -f $(DEV_COMPOSE_FILE) pull $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) pull $(target)
 
 stop: ## Stop running containers
-	docker-compose -f $(DEV_COMPOSE_FILE) stop $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) stop $(target)
 
 restart: ## restart containers
-	docker-compose -f $(DEV_COMPOSE_FILE) stop $(c) && docker-compose -f $(DEV_COMPOSE_FILE) up -d $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) stop $(target) && docker-compose -f $(DEV_COMPOSE_FILE) up -d $(target)
 
 rm: ## Stop and remove running containers
-	docker-compose -f $(DEV_COMPOSE_FILE) down -v $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) down -v $(target)
 
 ps: ## Process running containers
 	docker-compose -f $(DEV_COMPOSE_FILE) ps
 
 logs: ## Logs process running containers
-	docker-compose -f $(DEV_COMPOSE_FILE) logs --tail=100 -f $(c)
+	docker-compose -f $(DEV_COMPOSE_FILE) logs --tail=100 -f $(target)
 
 clean: ## Clean the generated/compiles files
 	echo "nothing clean ..."
 
-repo-login: ## Auto login to AWS-ECR unsing aws-cli
-	@eval $(CMD_REPOLOGIN)
+list:
+	docker ps -all
+	docker images
+	docker network ls
 
-version: ## output to version
-	@echo $(VERSION)

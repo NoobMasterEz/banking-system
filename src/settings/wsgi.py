@@ -1,5 +1,5 @@
 """
-WSGI config for banking project.
+WSGI config for delta_x project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

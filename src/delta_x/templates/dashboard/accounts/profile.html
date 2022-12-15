@@ -1,0 +1,153 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Profile {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Edit Info</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <form role="form" method="post" action="">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col-sm-6 mb-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Username</label>
+                                                            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                                                                readonly value="{{ request.user.username }}">
+                                                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                                        </div>
+                                                    </div>                                                
+                                                    <div class="col-sm-6 mb-4">
+                                                        <div class="form-group">
+                                                            <label {% if not request.user.email %} class="text-danger" {% endif %} 
+                                                                for="exampleInputEmail1">Email address</label>
+                                                            <input type="email"
+                                                                {% if request.user.email %} value="{{ request.user.email }}" {% endif %}  
+                                                                class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
+                                                                name="email">
+                                                            {% if not request.user.email %}       
+                                                                <small id="emailHelp" class="form-text text-danger">
+                                                                    You don't have an email address associated with this account.
+                                                                </small>
+                                                            {% endif %}    
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 mb-4">
+                                                        <div class="form-group">
+                                                            <label for="fn">First Name</label>
+                                                            <input type="text" class="form-control" id="fn" placeholder="Your first name", name="first_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 mb-4">
+                                                        <div class="form-group">
+                                                            <label for="ln">Last Name</label>
+                                                            <input type="text" class="form-control" id="ln" placeholder="Your last name", name="last_name">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6 mb-4">
+                                                        <div class="form-group">
+                                                            <label for="id">Identity Number</label>
+                                                            <input type="text" class="form-control" {% if customer_form.identity_number.value %} value="{{ customer_form.identity_number.value }}" {% endif %}
+                                                            id="{{ customer_form.identity_number.name }}" name="{{ customer_form.identity_number.name }}" placeholder="Your identity number">
+                                                            <small id="id" class="form-text text-muted">This is your identity number</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6 mb-4">
+                                                        <div class="form-group">
+                                                            <label for="gd">Gender</label>
+                                                            <select name="gender" class="form-control" va>
+                                                                {% for value, label in customer_form.fields.gender.choices %}
+                                                                    <option value="{{ value }}"{% if customer_form.gender.value == value %} selected{% endif %}>{{ label }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-sm-12 mb-4">
+                                                        <div class="form-group">
+                                                            <label for="add">Address</label>
+                                                            <input type="text" class="form-control" id="add" {% if customer_form.address.value %} value="{{ customer_form.address.value }}" {% endif %}
+                                                            id="{{ customer_form.address.name }}" name="{{ customer_form.address.name }}" placeholder="Your address">
+                                                            <small id="add" class="form-text text-muted">This is your shipments address</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12 mb-2">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                    </div>   
+                                            </form> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="d-flex align-items-center justify-content-center flex-column">
+                                                <div class="w-50 p-3">
+                                                    <img src="{{ STATIC_URL  }}images/user/profile.jpg" alt="profile image"
+                                                        class="img-fluid rounded-circle">
+                                                </div>
+                                                <div class="text-center">
+                                                    <h4 class="font-weight-bold h6">
+                                                        {{ request.user.username }}
+                                                    </h4>
+                                                    <p class="font-italic text-muted">
+                                                        {% if request.user.email %} {{ request.user.email }} {% endif %}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="small font-weight-light mt-4 text-center text-muted">
+                                                <p>
+                                                    This page is your private space.
+                                                    <br />
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <a href="#" class="h6 text-muted d-block m-1"><i
+                                                        class="icon feather icon-facebook"></i></a>
+                                                <a href="#" class="h6 text-muted d-block m-1"><i
+                                                        class="icon feather icon-twitter"></i></a>
+                                                <a href="#" class="h6 text-muted d-block m-1"><i
+                                                        class="icon feather icon-instagram"></i></a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

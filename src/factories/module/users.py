@@ -3,8 +3,8 @@ import random
 
 from django.contrib.auth.hashers import make_password
 
-from banking.module.users.models import Customer, User
-from banking.module.cores import defult
+from delta_x.module.users.models import Customer, User
+from delta_x.module.cores import defult
 
 
 class UserFactory(factory.django.DjangoModelFactory):

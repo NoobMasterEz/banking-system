@@ -1,4 +1,4 @@
-from banking import MAIN_APPS
+from delta_x import MAIN_APPS
 from .base import TEMP_DIR
 # Application definition
 
@@ -64,3 +64,8 @@ CACHES = {
         'LOCATION': 'redis://redis:6379',
     }
 }
+
+TF_SAVING_MODEL = "resnet"
+TF_SAVING_PORT = 8501
+TF_SAVING_OPTION = "predict"
+TF_SAVING_URL = f"http://tensorflow-serving:{TF_SAVING_PORT}/v1/models/{TF_SAVING_MODEL}:{TF_SAVING_OPTION}"

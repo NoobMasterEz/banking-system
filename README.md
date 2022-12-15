@@ -1,1 +1,1 @@
-code reference https://github.com/Keda87/django-simple-banking-api/
+code reference https://github.com/Keda87/django-simple-delta_x-api/
